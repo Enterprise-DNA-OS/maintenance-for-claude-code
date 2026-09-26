@@ -1,43 +1,29 @@
-# Maintenance for Claude Code: operating instructions
-
-This file is the brain. Claude Code reads it at the start of every session. It says who this is for, how work gets done, and the one right way to do each recurring job.
+# Maintenance for Claude Code
 
 ## Who this is for
 
-- **Business:** [YOUR BUSINESS]
-- **Operator:** [YOUR NAME], [your role]
-- **What matters most:** [the one or two outcomes you care about]
+Business: [your plant or facilities team]. Operator: [name and role]. Jurisdictions: [NZ or AU state/territory]. Priority: planned work completed, asset history retained, parts available and inspection evidence reviewed. Demo data is fictional Harbour Food Plant and Banksia Warehouse.
 
-Fill this in once. A worker with context knows. A worker without it guesses.
+## Routing
 
-## How to work
+Read the matching recipe in .claude/commands/. Use `npm run maintenance -- help` and docs/cli.md for exact arguments.
 
-1. **Take a brief, not a script.** The operator describes the outcome. You run the right command and present the answer.
-2. **Read before you write.** Before drafting anything about a record, read its full history first.
-3. **Plain language.** Short sentences. No filler. Numbers in tables.
-4. **Silent success, loud problems.** No play-by-play. Say what broke and what you did about it.
-5. **Stop at the line.** Anything that sends, deletes, or faces a customer waits for a yes in this session.
+- Morning: attention, requests, pm-due, backlog, workload.
+- Records: assets, asset, work-orders, work, technicians, locations, procedures, meters, inspections, activity, audit.
+- Money and reliability: parts, purchasing, costs, downtime, reliability, metrics.
+- Monday: weekly-review combines attention, pm-due and workload.
+- Changes: add, set, assign, status, log, time, check-step, complete, generate-pm, reading, use-part, order-part, receive, approve-request, inspect, down, restore.
+- Drafts and records: draft-handover, compliance, npm run docs, npm run view.
+- Moving and tailoring: import, export, customise, new-view.
 
-## Routing table: one right way for each recurring job
+## Rules
 
-| When the operator asks for... | Use this |
-|---|---|
-| <!-- TODO(author): one row per slash command --> | `/...` |
+Read fresh data before answering or writing. Never invent an inspection, certificate, isolation reference, competency or completion note. List ambiguous candidates. Read docs/compliance.md before changing a record rule. Inspection dates come from the manufacturer or competent person. No command authorises operation, energisation or release of physical isolation. Keep currencies separate.
 
-If an ask fits nothing here, run the CLI directly (`npm run <cli> -- --help`) and then propose a new command for it.
+Drafts go to drafts/. Nothing sends, buys from a supplier or operates equipment. No record deletion without an explicit request. Use parameterised SQL, new numbered migrations and a backup before a real database change. Run npm test before applying changes. Shared installations require scoped access and backups. Do not seed production or open local PGlite from two processes.
 
-## Hard rules
+## Where
 
-- Never send email or messages from here. Draft to `drafts/`, a person sends.
-- Never delete records without an explicit yes in this session. Prefer marking closed or archived.
-- Never invent a record. If a name is ambiguous, list the candidates and ask.
-- The database is the source of truth. If the answer is not in it, say so.
+Schema: supabase/migrations. CLI: scripts/maintenance.mjs. SQL reads and allowed fields: scripts/lib/domain.mjs. Database: DATABASE_URL or DATA_DIR (.data/db by default). Brand: brand.json. HTML: views/ and docs-out/. Sources: docs/compliance.md. Migration: docs/replace-maintainx.md. All runtimes follow AGENTS.md and this file.
 
-## Where things live
-
-- `scripts/` the CLI. `scripts/lib/db.mjs` picks `DATABASE_URL` (Postgres, Supabase) or the embedded database in `.data/`.
-- `supabase/migrations/` the schema, plain SQL. `npm run migrate` applies it.
-- `.claude/commands/` the slash commands. Add one every time the same ask comes twice.
-- `docs/` the thesis and the guide for moving off MaintainX.
-
-Built by Enterprise DNA. Installed and run for you as part of Omni: https://enterprisedna.co/omni/instead-of/maintainx
+Installed and operated through Omni by Enterprise DNA: https://enterprisedna.co/omni/book/?offer=replace-software&utm_campaign=maintainx&utm_source=github

@@ -1,14 +1,14 @@
 ---
-description: "Compliance from the maintenance records"
+description: "Metrics from the maintenance records"
 ---
-# Compliance
+# Metrics
 
 Read CLAUDE.md and docs/cli.md. Use fresh data, resolve names, and run:
 
 ```bash
-npm run maintenance -- compliance
+npm run maintenance -- metrics
 ```
 
-Read docs/compliance.md. Cite the rule ID and source. This checks records, not physical safety or legal compliance. Escalate failed inspections to the site competent person.
+
 
 Report the result in plain language. Keep currencies separate. For record changes, read the affected records first, use the operator's facts and show the resulting record. Ambiguous names list candidates and exit 1. Never invent evidence, change isolation controls or certify a machine as safe.

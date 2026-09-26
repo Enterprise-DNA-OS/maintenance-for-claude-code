@@ -1,13 +1,38 @@
 [
   {
     "name": "week",
-    "title": "This week",
-    "subtitle": "Maintenance for Claude Code: what needs attention, rendered by npm run view",
+    "title": "Maintenance week",
+    "subtitle": "Read-only snapshot. Refresh after changes.",
     "sections": [
       {
-        "title": "Needs attention",
-        "note": "TODO(author): point this at the industry's attention view (overdue, stuck, quiet).",
-        "sql": "select 'replace me' as item, 'TODO(author)' as why"
+        "title": "Needs a decision",
+        "sql": "select title,asset,technician,status,due_date,reason from v_attention order by due_date nulls first"
+      },
+      {
+        "title": "Preventive work due",
+        "sql": "select name,asset,next_due,meter_value,next_meter,has_open_work from v_pm_due order by next_due"
+      },
+      {
+        "title": "Parts to replenish",
+        "sql": "select name,sku,stock,reorder_point,supplier from parts where stock<=reorder_point order by name"
+      }
+    ]
+  },
+  {
+    "name": "plant",
+    "title": "Plant reliability and spend",
+    "sections": [
+      {
+        "title": "Work costs by currency",
+        "sql": "select title,asset,currency,total_cost from v_costs order by currency,total_cost desc"
+      },
+      {
+        "title": "Inspection register",
+        "sql": "select name,status,inspection_due,interval_source,registration_ref from assets order by inspection_due nulls first"
+      },
+      {
+        "title": "Outstanding purchases",
+        "sql": "select name,supplier,expected_date,quantity*unit_cost as committed,currency from purchase_orders where status='ordered' order by expected_date"
       }
     ]
   }

@@ -21,8 +21,15 @@ export async function migrate(db) {
   for (const file of files) {
     if (applied.has(file)) continue;
     const sql = readFileSync(path.join(dir, file), 'utf8');
-    await db.exec(sql);
-    await db.query('insert into schema_migrations (name) values ($1)', [file]);
+    await db.exec('BEGIN');
+    try {
+      await db.exec(sql);
+      await db.query('insert into schema_migrations (name) values ($1)', [file]);
+      await db.exec('COMMIT');
+    } catch (error) {
+      await db.exec('ROLLBACK');
+      throw error;
+    }
     ran.push(file);
   }
   return { ran, skipped: files.length - ran.length };

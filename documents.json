@@ -1,11 +1,57 @@
 [
   {
-    "name": "example",
-    "title": "TODO(author): the first document this industry must produce",
-    "for_each": "select gen_random_uuid() as id, 'Example' as name",
-    "file": "name",
+    "name": "job-card",
+    "title": "Maintenance job card",
+    "for_each": "select id,title from work_orders where status not in ('done','cancelled')",
+    "file": "id",
     "sections": [
-      { "title": "Details", "sql": "select 'replace me' as item, $1::text as record_id" }
+      {
+        "title": "Work instruction",
+        "sql": "select title,description,due_date,priority,isolation_ref from work_orders where id=$1",
+        "note": "Follow the approved site procedure. This record is not a permit to work."
+      },
+      {
+        "title": "Procedure checks",
+        "sql": "select name,result,evidence,checked_by from procedure_steps where work_order_id=$1"
+      },
+      {
+        "title": "Recorded labour",
+        "sql": "select t.name,l.hours,l.note from labour l join technicians t on t.id=l.technician_id where work_order_id=$1"
+      }
+    ]
+  },
+  {
+    "name": "service-record",
+    "title": "Plant service and inspection record",
+    "for_each": "select id,name from assets",
+    "file": "id",
+    "sections": [
+      {
+        "title": "Plant",
+        "sql": "select name,serial,status,inspection_due,interval_source,registration_ref from assets where id=$1"
+      },
+      {
+        "title": "Completed maintenance",
+        "sql": "select title,completed_at,completion_note,isolation_ref from work_orders where asset_id=$1 and status='done'"
+      },
+      {
+        "title": "Inspections",
+        "sql": "select inspector,inspected_on,next_due,result,evidence from inspections where asset_id=$1 order by inspected_on desc",
+        "note": "Retain source certificates with this record. No fitness certification is issued by this document."
+      }
+    ]
+  },
+  {
+    "name": "purchase-order",
+    "title": "Draft parts purchase order",
+    "for_each": "select id,name from purchase_orders where status='ordered'",
+    "file": "id",
+    "sections": [
+      {
+        "title": "Purchase details",
+        "sql": "select p.name,p.supplier,x.name as part,x.sku,p.quantity,p.unit_cost,p.quantity*p.unit_cost as total,p.currency,p.expected_date from purchase_orders p join parts x on x.id=p.part_id where p.id=$1",
+        "note": "Draft only. Review supplier, quantity and terms before ordering. Nothing is sent."
+      }
     ]
   }
 ]
