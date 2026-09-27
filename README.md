@@ -128,4 +128,4 @@ Change brand.json once. `npm run docs` creates draft job cards, plant service re
 
 ## Licence and relationship
 
-MIT. Not affiliated with MaintainX or Anthropic. Hosting and agent usage have separate costs. [Omni by Enterprise DNA](https://enterprisedna.co/omni/instead-of/maintainx) installs, customises and runs your version. [Book 30 minutes with Sam](https://enterprisedna.co/omni/book/?offer=replace-software&utm_campaign=maintainx&utm_source=github&utm_medium=readme).
+MIT. Not affiliated with MaintainX or Anthropic. Hosting and agent usage have separate costs. [Omni by Enterprise DNA](https://enterprisedna.co/omni/instead-of/maintainx?utm_source=github&utm_medium=readme&utm_campaign=maintainx) installs, customises and runs your version. [Book 30 minutes with Sam](https://enterprisedna.co/omni/book/?offer=replace-software&utm_campaign=maintainx&utm_source=github&utm_medium=readme).
